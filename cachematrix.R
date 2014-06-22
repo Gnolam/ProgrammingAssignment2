@@ -10,13 +10,19 @@
 ## The function does not check the type of argument
 makeCacheMatrix <- function(x = matrix()) {
         
+        ## Initial value
         m <- NULL
+        
+        ## Setter definition
         set <- function(y) {
                 x <<- y
                 m <<- NULL
         }
         
+        ## Getter definition
         get <- function()x
+        
+        ## The rest of API
         setsolve <- function(solve) m <<- solve
         getsolve <- function() m
         
@@ -33,12 +39,21 @@ makeCacheMatrix <- function(x = matrix()) {
 ## By inverse we define the solution of equation Ax = 0, where A is the returned matrix
 ## x MUST be initialized by makeCacheMatrix() function prior to call by cacheSolve
 cacheSolve <- function(x, ...) {
+        
+        ## Check is the value is already cashed?
         m <- x$getsolve()
+        
+        ## Yes, it is. No need for time-costly recalculation
         if(!is.null(m)){
                 message("getting cached data")
                 return(m)
         }
+        
+        ## No, it is the 1st time the inverse matrix is calculated.
+        ## We need to get it and store it in cash
         data <- x$get()
+        
+        ## Pls see http://www.statmethods.net/advstats/matrix.html for the quick referense of solve() function
         m <- solve(data, ...)
         x$setsolve(m)
         m
