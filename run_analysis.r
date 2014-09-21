@@ -81,10 +81,10 @@ activity_codes = read.csv("UCI HAR Dataset/activity_labels.txt", sep="", header=
 
 
 # Replace text labels with codes
-all_data$Activity <- factor(all_data$Activity,levels=activity_codes$Code,labels=activity_codes$Label)
+final_data$Activity <- factor(final_data$Activity,levels=activity_codes$Code,labels=activity_codes$Label)
 
 
 ## Step 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-DT <- data.table(all_data)
+DT <- data.table(final_data)
 tidy<-DT[,lapply(.SD,mean),by="Activity,Subject"]
 write.table(tidy,file="tidy.txt",sep=",",row.names = FALSE)
